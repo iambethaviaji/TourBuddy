@@ -1,3 +1,38 @@
 <resources>
-    <string name="app_name">TourBuddy</string>
+    <string name="app_name">TBuddy</string>
+    <string name="onboarding_title">It’s a big world out there go explore</string>
+    <string name="onboarding_subtitle">To get the best of your adventure you just need to leave and go where you like. we are waiting for you</string>
+
+    <string name="hint_signin">Already have an account</string>
+    <string name="signin_title">Sign in now</string>
+    <string name="signin_subtitle">Please sign in to continue our app</string>
+    <string name="signin">Sign In</string>
+
+    <string name="hint_signup">Don’t have an account?</string>
+    <string name="signup_title">Sign up now</string>
+    <string name="signup_subtitle">Please fill the details and create account</string>
+    <string name="signup">Sign Up</string>
+
+    <string name="hint_name">Name</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_password">Password</string>
+    <string name="hint_location">Location</string>
+    <string name="hint_search">Search your destination</string>
+    <string name="hint_description">Description</string>
+    <string name="hint_rating">5</string>
+    <string name="hint_review_count">100</string>
+    <string name="hint_review">Review</string>
+    <string name="hint_review_date">Date</string>
+
+    <string name="error_password">Password must be 8 character</string>
+    <string name="error">Unknown error occurred</string>
+
+    <string name="home_title">Find your Happiness with Us!</string>
+    <string name="details_title">Details</string>
+    <string name="details_description">About Destination</string>
+    <string name="read_more">Read More</string>
+    <string name="review">Review</string>
+    <string name="review_count">%1$d Person reviewed</string>
+    <string name="review_create">Write a Review</string>
+    <string name="review_post">Post Review</string>
 </resources>
