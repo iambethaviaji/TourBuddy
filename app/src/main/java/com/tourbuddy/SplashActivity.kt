@@ -19,7 +19,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun goToMain(){
-        Intent(this, MainActivity::class.java).also {
+        Intent(this, OnboardingActivity::class.java).also {
             startActivity(it)
             finish()
         }

@@ -55,7 +55,7 @@
         tools:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button_back"
+        android:id="@+id/btn_back"
         style="@style/floating_button"
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="parent"
