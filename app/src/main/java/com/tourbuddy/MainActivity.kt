@@ -1,23 +1,36 @@
 package com.tourbuddy
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tourbuddy.data.Destination
+import com.tourbuddy.databinding.ActivityMainBinding
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
+    private lateinit var binding : ActivityMainBinding
     private lateinit var rvDestination: RecyclerView
     private val list = ArrayList<Destination>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        rvDestination = findViewById(R.id.rv_destination)
+        rvDestination = binding.rvDestination
         rvDestination.setHasFixedSize(true)
 
         list.addAll(getDestinationList())
         showRecyclerlist()
+
+        binding.ivProfile.setOnClickListener {
+            showMenu(it)
+        }
     }
 
     private fun getDestinationList(): ArrayList<Destination>{
@@ -36,5 +49,30 @@ class MainActivity : AppCompatActivity() {
         rvDestination.layoutManager = LinearLayoutManager(this)
         val listDestinationAdapter = ListDestinationAdapter(list)
         rvDestination.adapter = listDestinationAdapter
+    }
+
+    fun showMenu(v: View) {
+        PopupMenu(this, v).apply {
+            setOnMenuItemClickListener(this@MainActivity)
+            inflate(R.menu.item_menu)
+            show()
+        }
+    }
+
+    override fun onMenuItemClick(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_profile -> { // todo profile
+                true
+            }
+            R.id.action_bookmark -> { // to do bookmark
+                true
+            }
+            R.id.action_signout -> {
+                startActivity(Intent(this@MainActivity, OnboardingActivity::class.java))
+                finish()
+                true
+            }
+            else -> false
+        }
     }
 }
