@@ -38,4 +38,30 @@
     <string name="review_post">Post Review</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    //Data dummy
+    <string-array name="data_name">
+        <item>Waterfall</item>
+        <item>Pantai</item>
+        <item>Danau</item>
+        <item>Jembatan</item>
+        <item>Kebun</item>
+        <item>Sungai</item>
+    </string-array>
+    <string-array name="data_location">
+        <item>Surabaya</item>
+        <item>Jakarta</item>
+        <item>Bandung</item>
+        <item>Malang</item>
+        <item>Kediri</item>
+        <item>Semarang</item>
+    </string-array>
+    <integer-array name="data_photo">
+        <item>@drawable/ayam</item>
+        <item>@drawable/elang</item>
+        <item>@drawable/gajah</item>
+        <item>@drawable/hiu</item>
+        <item>@drawable/jerapah</item>
+        <item>@drawable/kakaktua</item>
+    </integer-array>
 </resources>
