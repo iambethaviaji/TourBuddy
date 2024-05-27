@@ -10,7 +10,7 @@
     <Button
         android:id="@+id/btn_write_review"
         style="@style/button.normal"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="10dp"
         android:text="@string/review_create"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

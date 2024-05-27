@@ -28,6 +28,16 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
         list.addAll(getDestinationList())
         showRecyclerlist()
 
+        with(binding) {
+            searchView.setupWithSearchBar(searchBar)
+            searchView.editText.setOnEditorActionListener{ textView, actionId, event ->
+                searchBar.setText(searchView.text)
+                searchView.hide()
+                // todo filter
+                false
+            }
+        }
+
         binding.ivProfile.setOnClickListener {
             showMenu(it)
         }

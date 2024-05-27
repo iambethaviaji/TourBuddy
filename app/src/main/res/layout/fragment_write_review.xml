@@ -11,7 +11,7 @@
         android:id="@+id/layout_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -47,6 +47,8 @@
         android:id="@+id/ed_layout_review"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.input_field.multiline"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_post_review"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layout_rating">
@@ -55,17 +57,17 @@
             android:id="@+id/ed_add_review"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="top|start"
-            android:textAlignment="gravity"
-            android:hint="@string/hint_review"
             android:ems="10"
-            android:inputType="textMultiLine" />
+            android:gravity="top|start"
+            android:hint="@string/hint_review"
+            android:inputType="textMultiLine"
+            android:textAlignment="gravity" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btn_post_review"
         style="@style/button.normal"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="36dp"
         android:text="@string/review_post"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
