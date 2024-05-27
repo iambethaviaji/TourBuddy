@@ -21,6 +21,7 @@
                 android:id="@+id/iv_item_photo"
                 android:layout_width="100dp"
                 android:layout_height="120dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/avatars" />
@@ -29,15 +30,15 @@
                 android:id="@+id/tv_item_name"
                 style="@style/text.normal.bold"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 app:layout_constraintStart_toEndOf="@+id/iv_item_photo"
                 app:layout_constraintTop_toTopOf="@+id/iv_item_photo"
                 tools:text="@string/hint_name" />
 
             <ImageView
                 android:id="@+id/iv_location"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginTop="8dp"
                 android:src="@drawable/location_white"
                 app:layout_constraintStart_toStartOf="@+id/tv_item_name"
@@ -62,36 +63,36 @@
 
                 <ImageView
                     android:id="@+id/star1"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginEnd="5dp"
                     android:src="@drawable/star_disable" />
 
                 <ImageView
                     android:id="@+id/star2"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginEnd="5dp"
                     android:src="@drawable/star_disable" />
 
                 <ImageView
                     android:id="@+id/star3"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginEnd="5dp"
                     android:src="@drawable/star_disable" />
 
                 <ImageView
                     android:id="@+id/star4"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginEnd="5dp"
                     android:src="@drawable/star_disable" />
 
                 <ImageView
                     android:id="@+id/star5"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginEnd="5dp"
                     android:src="@drawable/star_disable" />
 
@@ -105,7 +106,9 @@
                 android:id="@+id/tv_review_count"
                 style="@style/text.normal.start"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="10dp"
                 android:text="@string/review_count"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_item_photo"
                 app:layout_constraintStart_toStartOf="@+id/linearLayout"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 

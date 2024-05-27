@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tourbuddy.data.Destination
 
 
-class ListDestinationAdapter(private val listDestination: ArrayList<Destination>): RecyclerView.Adapter<ListDestinationAdapter.ListViewHolder>(){
+class ListDestinationAdapter(private var listDestination: ArrayList<Destination>): RecyclerView.Adapter<ListDestinationAdapter.ListViewHolder>(){
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -32,6 +32,12 @@ class ListDestinationAdapter(private val listDestination: ArrayList<Destination>
             intentDetail.putExtra("key_destination", listDestination[holder.adapterPosition])
             holder.itemView.context.startActivity(intentDetail)
         }
+    }
+
+    fun setFilteredList(filteredDestination : ArrayList<Destination>) {
+        listDestination = filteredDestination
+        notifyDataSetChanged()
+
     }
 
     class ListViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {

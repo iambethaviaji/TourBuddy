@@ -8,14 +8,18 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.PopupMenu
+import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tourbuddy.data.Destination
 import com.tourbuddy.databinding.ActivityMainBinding
+import java.util.Locale
 
 class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     private lateinit var binding : ActivityMainBinding
     private lateinit var rvDestination: RecyclerView
+    private lateinit var listDestinationAdapter : ListDestinationAdapter
     private val list = ArrayList<Destination>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,14 +32,18 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
         list.addAll(getDestinationList())
         showRecyclerlist()
 
-        with(binding) {
-            searchView.setupWithSearchBar(searchBar)
-            searchView.editText.setOnEditorActionListener{ textView, actionId, event ->
-                searchBar.setText(searchView.text)
-                searchView.hide()
-                // todo filter
-                false
-            }
+        with(binding){
+            searchBar.clearFocus()
+            searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    filterList(newText.toString())
+                    return true
+                }
+            })
         }
 
         binding.ivProfile.setOnClickListener {
@@ -57,8 +65,21 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
 
     private fun showRecyclerlist() {
         rvDestination.layoutManager = LinearLayoutManager(this)
-        val listDestinationAdapter = ListDestinationAdapter(list)
+        listDestinationAdapter = ListDestinationAdapter(list)
         rvDestination.adapter = listDestinationAdapter
+    }
+
+    private fun filterList(filter : String) {
+        val filteredList = ArrayList<Destination>()
+        for (item in list) {
+            if (item.name.lowercase().contains(filter.lowercase()) ||
+                item.location.lowercase().contains(filter.lowercase())) {
+                filteredList.add(item)
+            }
+        }
+        if (filteredList.isNotEmpty()) {
+            listDestinationAdapter.setFilteredList(filteredList)
+        }
     }
 
     fun showMenu(v: View) {
