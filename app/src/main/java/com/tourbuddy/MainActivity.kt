@@ -12,6 +12,9 @@ import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.tourbuddy.data.Destination
 import com.tourbuddy.databinding.ActivityMainBinding
 import java.util.Locale
@@ -20,9 +23,11 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     private lateinit var binding : ActivityMainBinding
     private lateinit var rvDestination: RecyclerView
     private lateinit var listDestinationAdapter : ListDestinationAdapter
+    private lateinit var auth: FirebaseAuth
     private val list = ArrayList<Destination>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        auth = Firebase.auth
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -99,6 +104,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
                 true
             }
             R.id.action_signout -> {
+                auth.signOut()
                 startActivity(Intent(this@MainActivity, OnboardingActivity::class.java))
                 finish()
                 true

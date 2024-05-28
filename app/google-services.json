@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "137918895234",
+    "project_id": "tourbuddy-edc74",
+    "storage_bucket": "tourbuddy-edc74.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:137918895234:android:ac2b3175096e6a9e5e109b",
+        "android_client_info": {
+          "package_name": "com.tourbuddy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDklLKxt3O9YTfh2n3GlVDt_MkHUnXLQwE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
