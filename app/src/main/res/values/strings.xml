@@ -21,7 +21,7 @@
     <string name="hint_search">Search your destination</string>
     <string name="hint_description">Description</string>
     <string name="hint_rating">5</string>
-    <string name="hint_review_count">(100)</string>
+    <string name="hint_review_count">(%1$s)</string>
     <string name="hint_review">Review</string>
     <string name="hint_review_date">Date</string>
 
@@ -33,7 +33,7 @@
     <string name="details_description">About Destination</string>
     <string name="read_more">Read More</string>
     <string name="review">Review</string>
-    <string name="review_count">%1$d Person reviewed</string>
+    <string name="review_count">%1$s Person reviewed</string>
     <string name="review_create">Write a Review</string>
     <string name="review_post">Post Review</string>
     <!-- TODO: Remove or change this placeholder text -->

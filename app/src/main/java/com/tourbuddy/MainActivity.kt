@@ -1,41 +1,63 @@
 package com.tourbuddy
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import android.widget.PopupMenu
-import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.tourbuddy.api.DestinationResponseItem
 import com.tourbuddy.data.Destination
 import com.tourbuddy.databinding.ActivityMainBinding
-import java.util.Locale
+import com.tourbuddy.viewModel.DestinationViewModel
+import com.tourbuddy.viewModel.DestinationViewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+
 
 class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     private lateinit var binding : ActivityMainBinding
     private lateinit var rvDestination: RecyclerView
     private lateinit var listDestinationAdapter : ListDestinationAdapter
     private lateinit var auth: FirebaseAuth
-    private val list = ArrayList<Destination>()
+    private val list = ArrayList<DestinationResponseItem>()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        rvDestination = binding.rvDestination
-        rvDestination.setHasFixedSize(true)
+        //mendapatkan token
+//        var idToken : String ?= null
+//        val mUser = auth.currentUser
+//        mUser!!.getIdToken(true)
+//            .addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//                    idToken  = task.result.token
+//                }
+//            }
 
-        list.addAll(getDestinationList())
-        showRecyclerlist()
+        //retrofit untuk akses ke api (masih error)
+//        val destinationViewModel = obtainViewModel("")
+//
+//        rvDestination = binding.rvDestination
+//        rvDestination.setHasFixedSize(true)
+//
+//        destinationViewModel.destination.observe(this) {
+//            list.addAll(it.destinationResponse)
+//            showRecyclerlist()
+//        }
+//
+//        destinationViewModel.isLoading.observe(this) {
+//            showLoading(it)
+//        }
 
         with(binding){
             searchBar.clearFocus()
@@ -75,10 +97,10 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     }
 
     private fun filterList(filter : String) {
-        val filteredList = ArrayList<Destination>()
+        val filteredList = ArrayList<DestinationResponseItem>()
         for (item in list) {
-            if (item.name.lowercase().contains(filter.lowercase()) ||
-                item.location.lowercase().contains(filter.lowercase())) {
+            if (item.name.toString().lowercase().contains(filter.lowercase()) ||
+                item.city.toString().lowercase().contains(filter.lowercase())) {
                 filteredList.add(item)
             }
         }
@@ -110,6 +132,19 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
                 true
             }
             else -> false
+        }
+    }
+
+    private fun obtainViewModel(token : String) : DestinationViewModel {
+        val factory = DestinationViewModelFactory.getInstance(token, CoroutineScope(Dispatchers.IO))
+        return ViewModelProvider(this, factory).get(DestinationViewModel::class.java)
+    }
+
+    private fun showLoading(isLoading : Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
         }
     }
 }
