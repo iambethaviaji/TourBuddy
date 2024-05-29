@@ -2,6 +2,7 @@ package com.tourbuddy
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
@@ -35,29 +36,30 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
         setContentView(binding.root)
 
         //mendapatkan token
-//        var idToken : String ?= null
-//        val mUser = auth.currentUser
-//        mUser!!.getIdToken(true)
-//            .addOnCompleteListener { task ->
-//                if (task.isSuccessful) {
-//                    idToken  = task.result.token
-//                }
-//            }
+        val mUser = auth.currentUser
+        mUser!!.getIdToken(true)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val idToken = task.result.token
 
-        //retrofit untuk akses ke api
-        val destinationViewModel = obtainViewModel("")
+                    //retrofit untuk akses ke api
+                    val destinationViewModel = obtainViewModel(idToken.toString())
 
-        rvDestination = binding.rvDestination
-        rvDestination.setHasFixedSize(true)
+                    rvDestination = binding.rvDestination
+                    rvDestination.setHasFixedSize(true)
 
-        destinationViewModel.destination.observe(this) {
-            list.addAll(it.destinationResponse)
-            showRecyclerlist()
-        }
+                    destinationViewModel.destination.observe(this) {
+                        list.addAll(it.destinationResponse)
+                        showRecyclerlist()
+                    }
 
-        destinationViewModel.isLoading.observe(this) {
-            showLoading(it)
-        }
+                    destinationViewModel.isLoading.observe(this) {
+                        showLoading(it)
+                    }
+                } else {
+                    task.exception
+                }
+            }
 
         with(binding){
             searchBar.clearFocus()
