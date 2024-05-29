@@ -44,16 +44,16 @@ class ReviewFragment : Fragment() {
 
     private fun getListReview(): ArrayList<Review> {
         val dataName = resources.getStringArray(R.array.review_name)
-        val dataReview = resources.getStringArray(R.array.review_rating)
+        val dataReview = resources.getStringArray(R.array.review_review)
         val dataPhoto = resources.obtainTypedArray(R.array.review_photo)
-        val dataRating = resources.obtainTypedArray(R.array.review_rating)
+        val dataRating = resources.getIntArray(R.array.review_rating)
         val listReview = ArrayList<Review>()
         for (i in dataName.indices) {
-            val review = Review(dataName[i], dataReview[i], dataRating.getResourceId(i, -1), dataPhoto.getResourceId(i, -1))
+            val review = Review(dataName[i], dataReview[i], dataRating[i], dataPhoto.getResourceId(i, -1))
             listReview.add(review)
         }
-        dataRating.recycle()
-        dataPhoto.recycle()
+//        dataRating.recycle()
+//        dataPhoto.recycle()
         return listReview
     }
 

@@ -1,6 +1,7 @@
 package com.tourbuddy
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,8 +23,10 @@ class ListReviewAdapter(private val listReview: ArrayList<Review>) : RecyclerVie
         holder.imgPhoto.setImageResource(photo)
         holder.tvName.text = name
         holder.tvReview.text = review
+        holder.tvRating.text = rating.toString()
 
         val filledStarResId = R.drawable.star_enabled
+        Log.d("rating", rating.toString())
         when(rating){
             5 -> {
                 holder.ivStar1.setImageResource(filledStarResId)
@@ -55,8 +58,9 @@ class ListReviewAdapter(private val listReview: ArrayList<Review>) : RecyclerVie
 
     class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imgPhoto: ImageView = itemView.findViewById(R.id.iv_item_photo)
-        val tvName: TextView = itemView.findViewById(R.id.tv_item_name)
+        val tvName: TextView = itemView.findViewById(R.id.tv_name)
         val tvReview: TextView = itemView.findViewById(R.id.tv_review)
+        val tvRating: TextView = itemView.findViewById(R.id.tv_rating)
         val ivStar1: ImageView = itemView.findViewById(R.id.star1)
         val ivStar2: ImageView = itemView.findViewById(R.id.star2)
         val ivStar3: ImageView = itemView.findViewById(R.id.star3)
