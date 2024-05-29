@@ -24,7 +24,7 @@ class ListDestinationAdapter(private var listDestination: ArrayList<DestinationR
     override fun getItemCount(): Int = listDestination.size
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (city, photo, name, rating, description, location, reviewCount) = listDestination[position]
+        val (city, photo, id, name, rating, description, location, reviewCount) = listDestination[position]
 
         holder.tvName.text = name
         holder.tvlocation.text = city

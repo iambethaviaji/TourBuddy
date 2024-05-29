@@ -7,6 +7,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.bumptech.glide.Glide
+import com.tourbuddy.api.DestinationResponseItem
 import com.tourbuddy.data.Destination
 import com.tourbuddy.databinding.ActivityDetailBinding
 
@@ -18,13 +20,15 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val destination = if (Build.VERSION.SDK_INT >= 33) {
-            intent.getParcelableExtra<Destination>("key_destination", Destination::class.java)
+            intent.getParcelableExtra<DestinationResponseItem>("key_destination", DestinationResponseItem::class.java)
         } else {
             @Suppress("DEPRECATION")
-            intent.getParcelableExtra<Destination>("key_destination")
+            intent.getParcelableExtra<DestinationResponseItem>("key_destination")
         }
 
-        binding.ivPhoto.setImageResource(destination?.photo as Int)
+        Glide.with(this)
+            .load(destination?.imageUrl)
+            .into(binding.ivPhoto)
 
         val bundle = Bundle()
         bundle.putParcelable("key_destination", destination)

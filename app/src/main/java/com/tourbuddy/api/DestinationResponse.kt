@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 data class DestinationResponse(
 
-	@field:SerializedName("DestinationResponse")
+	@field:SerializedName("list_destination")
 	val destinationResponse: ArrayList<DestinationResponseItem>
 )
 

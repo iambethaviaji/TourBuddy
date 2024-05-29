@@ -44,20 +44,20 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
 //                }
 //            }
 
-        //retrofit untuk akses ke api (masih error)
-//        val destinationViewModel = obtainViewModel("")
-//
-//        rvDestination = binding.rvDestination
-//        rvDestination.setHasFixedSize(true)
-//
-//        destinationViewModel.destination.observe(this) {
-//            list.addAll(it.destinationResponse)
-//            showRecyclerlist()
-//        }
-//
-//        destinationViewModel.isLoading.observe(this) {
-//            showLoading(it)
-//        }
+        //retrofit untuk akses ke api
+        val destinationViewModel = obtainViewModel("")
+
+        rvDestination = binding.rvDestination
+        rvDestination.setHasFixedSize(true)
+
+        destinationViewModel.destination.observe(this) {
+            list.addAll(it.destinationResponse)
+            showRecyclerlist()
+        }
+
+        destinationViewModel.isLoading.observe(this) {
+            showLoading(it)
+        }
 
         with(binding){
             searchBar.clearFocus()
