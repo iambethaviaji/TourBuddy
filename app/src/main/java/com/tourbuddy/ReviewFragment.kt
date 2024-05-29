@@ -52,8 +52,7 @@ class ReviewFragment : Fragment() {
             val review = Review(dataName[i], dataReview[i], dataRating[i], dataPhoto.getResourceId(i, -1))
             listReview.add(review)
         }
-//        dataRating.recycle()
-//        dataPhoto.recycle()
+        dataPhoto.recycle()
         return listReview
     }
 
