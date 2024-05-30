@@ -29,8 +29,10 @@ class ListReviewAdapter(private val listReview: ArrayList<ListReviewItem>) : Rec
         holder.tvName.text = name
         holder.tvReview.text = review
         holder.tvRating.text = rating
+        holder.tvDate.text = date
 
         val filledStarResId = R.drawable.star_enabled
+        val emptyStarResId = R.drawable.star_disable
         val intRating = rating.toInt()
         when(intRating){
             5 -> {
@@ -45,18 +47,28 @@ class ListReviewAdapter(private val listReview: ArrayList<ListReviewItem>) : Rec
                 holder.ivStar2.setImageResource(filledStarResId)
                 holder.ivStar3.setImageResource(filledStarResId)
                 holder.ivStar4.setImageResource(filledStarResId)
+                holder.ivStar5.setImageResource(emptyStarResId)
             }
             3 -> {
                 holder.ivStar1.setImageResource(filledStarResId)
                 holder.ivStar2.setImageResource(filledStarResId)
                 holder.ivStar3.setImageResource(filledStarResId)
+                holder.ivStar4.setImageResource(emptyStarResId)
+                holder.ivStar5.setImageResource(emptyStarResId)
             }
             2 -> {
                 holder.ivStar1.setImageResource(filledStarResId)
                 holder.ivStar2.setImageResource(filledStarResId)
+                holder.ivStar3.setImageResource(emptyStarResId)
+                holder.ivStar4.setImageResource(emptyStarResId)
+                holder.ivStar5.setImageResource(emptyStarResId)
             }
             1 -> {
                 holder.ivStar1.setImageResource(filledStarResId)
+                holder.ivStar2.setImageResource(emptyStarResId)
+                holder.ivStar3.setImageResource(emptyStarResId)
+                holder.ivStar4.setImageResource(emptyStarResId)
+                holder.ivStar5.setImageResource(emptyStarResId)
             }
         }
     }
@@ -66,6 +78,7 @@ class ListReviewAdapter(private val listReview: ArrayList<ListReviewItem>) : Rec
         val tvName: TextView = itemView.findViewById(R.id.tv_name)
         val tvReview: TextView = itemView.findViewById(R.id.tv_review)
         val tvRating: TextView = itemView.findViewById(R.id.tv_rating)
+        val tvDate: TextView = itemView.findViewById(R.id.tv_date)
         val ivStar1: ImageView = itemView.findViewById(R.id.star1)
         val ivStar2: ImageView = itemView.findViewById(R.id.star2)
         val ivStar3: ImageView = itemView.findViewById(R.id.star3)
