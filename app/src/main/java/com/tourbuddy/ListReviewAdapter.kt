@@ -22,7 +22,7 @@ class ListReviewAdapter(private val listReview: ArrayList<ListReviewItem>) : Rec
     override fun getItemCount(): Int = listReview.size
 
     override fun onBindViewHolder(holder: ListViewHolder, position: Int) {
-        val (name, review, rating, photo) = listReview[position]
+        val (date,id, review, photo, destination_id, name, rating)= listReview[position]
         Glide.with(holder.itemView.context)
             .load(photo)
             .into(holder.imgPhoto)

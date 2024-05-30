@@ -17,8 +17,8 @@ interface ApiService {
 //        @Query("city") city: String
 //    ): DestinationResponse
 
-        @GET("review")
+        @GET("reviews")
     fun getAllReview(
-        @Query("destination_id") id: String
+        @Query("id") id: String
     ): Call<ListReviewResponse>
 }
