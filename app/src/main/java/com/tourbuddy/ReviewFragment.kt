@@ -5,16 +5,28 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.tourbuddy.api.ListReviewItem
+import com.tourbuddy.api.ListReviewResponse
 import com.tourbuddy.data.Review
 import com.tourbuddy.databinding.FragmentDetailBinding
 import com.tourbuddy.databinding.FragmentReviewBinding
+import com.tourbuddy.viewModel.DestinationViewModel
+import com.tourbuddy.viewModel.DestinationViewModelFactory
+import com.tourbuddy.viewModel.ListReviewViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 class ReviewFragment : Fragment() {
     private lateinit var binding : FragmentReviewBinding
     private lateinit var rvReview: RecyclerView
-    private val list = ArrayList<Review>()
+    private val list = ArrayList<ListReviewItem>()
+    private lateinit var auth: FirebaseAuth
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -25,6 +37,7 @@ class ReviewFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        auth = Firebase.auth
         binding.btnWriteReview.setOnClickListener{
             val writeReviewFragment = WriteReviewFragment()
             val fragmentManager = parentFragmentManager
@@ -35,11 +48,37 @@ class ReviewFragment : Fragment() {
             }
         }
 
-        rvReview = binding.rvDestination
-        rvReview.setHasFixedSize(true)
+        //mendapatkan token
+        val mUser = auth.currentUser
+        mUser!!.getIdToken(true)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val idToken = task.result.token
 
-        list.addAll(getListReview())
-        showRecyclerList()
+                    //retrofit untuk akses ke api
+                    val listReviewViewModel = obtainViewModel(idToken.toString())
+
+                    rvReview = binding.rvDestination
+                    rvReview.setHasFixedSize(true)
+
+                    listReviewViewModel.review.observe(viewLifecycleOwner) {
+                        list.addAll(it.listReview)
+                        showRecyclerList()
+                    }
+
+                    listReviewViewModel.isLoading.observe(viewLifecycleOwner) {
+                        showLoading(it)
+                    }
+                } else {
+                    task.exception
+                }
+            }
+
+//        rvReview = binding.rvDestination
+//        rvReview.setHasFixedSize(true)
+//
+//        list.addAll(getListReview())
+//        showRecyclerList()
     }
 
     private fun getListReview(): ArrayList<Review> {
@@ -60,5 +99,17 @@ class ReviewFragment : Fragment() {
         rvReview.layoutManager = LinearLayoutManager(requireContext())
         val listReviewAdapter = ListReviewAdapter(list)
         rvReview.adapter = listReviewAdapter
+    }
+
+    private fun obtainViewModel(token : String) : ListReviewViewModel {
+        val factory = DestinationViewModelFactory.getInstance(token, CoroutineScope(Dispatchers.IO))
+        return ViewModelProvider(this, factory).get(ListReviewViewModel::class.java)
+    }
+    private fun showLoading(isLoading : Boolean) {
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
+        }
     }
 }

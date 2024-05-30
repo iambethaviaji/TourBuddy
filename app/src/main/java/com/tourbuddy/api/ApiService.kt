@@ -16,4 +16,9 @@ interface ApiService {
 //    suspend fun getAllDestinations(
 //        @Query("city") city: String
 //    ): DestinationResponse
+
+        @GET("review")
+    fun getAllReview(
+        @Query("destination_id") id: String
+    ): Call<ListReviewResponse>
 }

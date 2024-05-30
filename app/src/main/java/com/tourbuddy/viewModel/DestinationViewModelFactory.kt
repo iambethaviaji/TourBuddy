@@ -25,6 +25,9 @@ class DestinationViewModelFactory private constructor(private val mToken: String
         if (modelClass.isAssignableFrom(DestinationViewModel::class.java)) {
             return DestinationViewModel(mToken, mScope) as T
         }
+        if (modelClass.isAssignableFrom(ListReviewViewModel::class.java)) {
+            return ListReviewViewModel(mToken, mScope) as T
+        }
         throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
     }
 }
