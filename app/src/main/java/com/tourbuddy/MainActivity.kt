@@ -1,16 +1,26 @@
 package com.tourbuddy
 
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.PopupMenu
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -21,6 +31,10 @@ import com.tourbuddy.viewModel.DestinationViewModel
 import com.tourbuddy.viewModel.DestinationViewModelFactory
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.util.Locale
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 
 class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
@@ -29,6 +43,9 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
     private lateinit var listDestinationAdapter : ListDestinationAdapter
     private lateinit var auth: FirebaseAuth
     private val list = ArrayList<DestinationResponseItem>()
+    private lateinit var destinationViewModel : DestinationViewModel
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         auth = Firebase.auth
@@ -43,7 +60,7 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
                     val idToken = task.result.token
 
                     //retrofit untuk akses ke api
-                    val destinationViewModel = obtainViewModel(idToken.toString())
+                    destinationViewModel = obtainViewModel(idToken.toString())
 
                     rvDestination = binding.rvDestination
                     rvDestination.setHasFixedSize(true)
@@ -77,6 +94,11 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
 
         binding.ivProfile.setOnClickListener {
             showMenu(it)
+        }
+
+        binding.btnLocation.setOnClickListener{
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+            getMyLastLocation()
         }
     }
 
@@ -147,6 +169,84 @@ class MainActivity : AppCompatActivity(), PopupMenu.OnMenuItemClickListener {
             binding.progressBar.visibility = View.VISIBLE
         } else {
             binding.progressBar.visibility = View.GONE
+        }
+    }
+
+    private val requestPermissionLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { permissions ->
+            when {
+                permissions[android.Manifest.permission.ACCESS_FINE_LOCATION] ?: false -> {
+                    // Precise location access granted.
+                    getMyLastLocation()
+                }
+                permissions[android.Manifest.permission.ACCESS_COARSE_LOCATION] ?: false -> {
+                    // Only approximate location access granted.
+                    getMyLastLocation()
+                }
+                else -> {
+                    // No location access granted.
+                    Toast.makeText(this, getString(R.string.error_permission), Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    private fun checkPermission(permission: String): Boolean {
+        return ContextCompat.checkSelfPermission(
+            this,
+            permission
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    private fun getMyLastLocation() {
+        if (checkPermission(android.Manifest.permission.ACCESS_FINE_LOCATION) &&
+            checkPermission(android.Manifest.permission.ACCESS_COARSE_LOCATION)
+        ) {
+            fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
+                var currentLocation = "Indonesia"
+                Log.d("TAG", location?.latitude.toString())
+                if (location != null) {
+                    val geocoder = Geocoder(this@MainActivity, Locale.getDefault())
+                    Log.d("TAG", "getMyLastLocation: ")
+                    geocoder.getAddress(location.latitude, location.longitude) {
+                        if(it != null) {
+                            Log.d("TAG", "getAddress: ")
+                            currentLocation = it.adminArea
+                        }
+                    }
+                }
+                binding.btnLocation.text = currentLocation
+                destinationViewModel.getAllDestination(currentLocation)
+            }
+
+        } else {
+            requestPermissionLauncher.launch(
+                arrayOf(
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION
+                )
+            )
+        }
+    }
+
+    @Suppress("DEPRECATION")
+    fun Geocoder.getAddress(
+        latitude: Double,
+        longitude: Double,
+        address: (Address?) -> Unit
+    ) {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            getFromLocation(latitude, longitude, 1) {
+                address(it.firstOrNull())
+            }
+            return
+        }
+
+        try {
+            address(getFromLocation(latitude, longitude, 1)?.firstOrNull())
+        } catch(e: Exception) {
+            address(null)
         }
     }
 }
